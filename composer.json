@@ -1,0 +1,30 @@
+{
+    "name": "lemonphp/cakeplugin-maintenance-mode",
+    "type": "cakephp-plugin",
+    "description": "A plugin to enable and disable maintenance mode for CakePHP",
+    "keyworks": ["cakephp","plugin","maintenance"],
+    "license": "MIT",
+    "homepage": "https://github.com/lemonphp/cakeplugin-maintenance-mode",
+    "support": {
+        "issues": "https://github.com/lemonphp/cakeplugin-maintenance-mode/issues",
+        "source": "https://github.com/lemonphp/cakeplugin-maintenance-mode"
+    },
+    "authors": [
+        {
+            "name": "Oanh Nguyen",
+            "email": "oanhnn.bk@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lemon\\CakePlugin\\MaintenanceMode\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "cakephp/cakephp": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    }
+}

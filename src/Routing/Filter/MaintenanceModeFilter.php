@@ -20,7 +20,7 @@ class MaintenanceModeFilter extends DispatcherFilter
      *
      * @var int
      */
-    protected $_priority = 99;
+    protected $_priority = -1;
 
     /**
      * Returns the list of events this filter listens to.
@@ -45,26 +45,27 @@ class MaintenanceModeFilter extends DispatcherFilter
      */
     public function handle(Event $event)
     {
-
-
+        if (is_file(MAINTENANCE_CONFIG_FILE) && is_readable(MAINTENANCE_CONFIG_FILE)) {
+            // stop event
             $event->stopPropagation();
 
             $request = $event->data['request'];
             $response = $event->data['response'];
-//            $viewClass = $this->config('view.class');
-//
-//            $view = new $viewClass($request, $response);
-//            $view->templatePath($this->config('view.path'));
-//            $view->template($this->config('view.template'));
-//            $view->layout($this->config('view.layout'));
-//
-//            foreach ((array) $this->config('view.vars') as $key => $value) {
-//                $view->set($key, $value);
-//            }
+            $config = require MAINTENANCE_CONFIG_FILE;
 
-//            $response->body($view->render());
-            $response->body('Maintenance mode ON');
+            $viewClass = $config['viewClass'];
+
+            $view = new \App\View\AppView($request, $response);
+            $view->templatePath($config['templatePath']);
+            $view->template($config['templateFile']);
+            $view->layout($config['templateLayout']);
+
+            $view->set('startAt', \Cake\I18n\Time::createFromFormat('YmdHis', $config['startAt']));
+            $view->set('endAt', \Cake\I18n\Time::createFromFormat('YmdHis', $config['endAt']));
+
+            $response->body($view->render());
 
             return $response;
+        }
     }
 }

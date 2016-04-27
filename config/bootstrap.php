@@ -1,4 +1,7 @@
 <?php
-use Cake\Core\Configure;
+use Cake\Routing\DispatcherFactory;
+use Lemon\CakePlugin\MaintenanceMode\Routing\Filter\MaintenanceModeFilter;
 
-$config = Configure::read();
+defined('MAINTENANCE_CONFIG_FILE') || define('MAINTENANCE_CONFIG_FILE', TMP . 'maintenance.php');
+
+DispatcherFactory::add(MaintenanceModeFilter::class);

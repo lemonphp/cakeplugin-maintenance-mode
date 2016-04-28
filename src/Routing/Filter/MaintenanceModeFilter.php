@@ -1,8 +1,15 @@
 <?php
+/**
+ * This file is part of `lemonphp/cakeplugin-maintenance-mode` project.
+ *
+ * (c) 2015-2016 LemonPHP Team
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Lemon\CakePlugin\MaintenanceMode\Routing\Filter;
 
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\DispatcherFilter;
 
@@ -55,7 +62,7 @@ class MaintenanceModeFilter extends DispatcherFilter
 
             $viewClass = $config['viewClass'];
 
-            $view = new \App\View\AppView($request, $response);
+            $view = new $viewClass($request, $response);
             $view->templatePath($config['templatePath']);
             $view->template($config['templateFile']);
             $view->layout($config['templateLayout']);

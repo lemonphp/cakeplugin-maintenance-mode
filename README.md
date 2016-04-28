@@ -7,8 +7,10 @@ A plugin to enable and disable maintenance mode for CakePHP
 
 Main features
 ---
-- [ ] Show a page to alert application in maintenance mode
-- [ ] Enable and disable maintenance mode by shell
+- [x] Show a page to alert application in maintenance mode
+- [x] Allow customize maintenance alert page template
+- [x] Enable and disable maintenance mode by shell
+- [ ] 100% code coverage
 
 Requirements
 ---
@@ -28,7 +30,32 @@ composer require lemonphp/cakeplugin-maintenance-mode
 
 Usage
 ---
-// TODO: How to use
+
+### Enable plugin
+
+Add this line to `config/bootstrap.php` file
+```
+Plugin::load('Lemon/CakePlugin/MaintenanceMode', ['bootstrap' => true]);
+```
+
+### Enable maintenance mode
+
+```
+$ bin/cake maintenance_mode enable
+```
+
+Using option `--force` to enable maintenance mode with default config:
+
+- View class: `\App\View\AppView`
+- Templatce: `Pages/maintenance.ctp`
+- Layout: `default`
+- Time: a hour from now
+
+### Disable maintenance mode
+
+```
+$ bin/cake maintenance_mode disable
+```
 
 Changelog
 ---

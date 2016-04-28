@@ -9,8 +9,12 @@ Main features
 ---
 - [x] Show a page to alert application in maintenance mode
 - [x] Allow customize maintenance alert page template
-- [x] Enable and disable maintenance mode by shell
+- [x] Allow enable and disable maintenance mode by shell
+- [ ] Allow enable and disable maintenance mode by post request
+- [ ] Allow access from some IPs when enabled maintenance mode
+- [ ] Allow access some URLs when enabled maintenance mode
 - [ ] 100% code coverage
+- [ ] Support both CakePHP 3.x and 2.x
 
 Requirements
 ---

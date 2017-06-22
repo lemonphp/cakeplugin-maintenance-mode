@@ -10,6 +10,7 @@
 
 namespace Lemon\CakePlugin\MaintenanceMode\Routing\Filter;
 
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\DispatcherFilter;
 
@@ -52,23 +53,26 @@ class MaintenanceModeFilter extends DispatcherFilter
      */
     public function handle(Event $event)
     {
-        if (is_file(MAINTENANCE_CONFIG_FILE) && is_readable(MAINTENANCE_CONFIG_FILE)) {
+        $config = Configure::read('maintenance_mode');
+        if (is_file($config['lockFile'])) {
             // stop event
             $event->stopPropagation();
 
             $request = $event->data['request'];
             $response = $event->data['response'];
-            $config = require MAINTENANCE_CONFIG_FILE;
 
             $viewClass = $config['viewClass'];
 
+            /*@var $view \Cake\View\View */
             $view = new $viewClass($request, $response);
             $view->templatePath($config['templatePath']);
             $view->template($config['templateFile']);
             $view->layout($config['templateLayout']);
 
-            $view->set('startAt', \Cake\I18n\Time::createFromFormat('YmdHis', $config['startAt']));
-            $view->set('endAt', \Cake\I18n\Time::createFromFormat('YmdHis', $config['endAt']));
+            // Set view vars
+            foreach ($config['viewVars'] as $key => $value) {
+                $view->set($key, $value);
+            }
 
             $response->body($view->render());
 

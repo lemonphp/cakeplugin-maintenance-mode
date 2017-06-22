@@ -42,18 +42,28 @@ Add this line to `config/bootstrap.php` file
 Plugin::load('Lemon/CakePlugin/MaintenanceMode', ['bootstrap' => true]);
 ```
 
+### Configure plugin
+
+Modified config:
+
+```
+Cake\Core\Configure::write('maintenance_mode', [
+    'lockFile' => TMP . 'maintenance.php',
+    'viewClass' => 'App\View\AppView',
+    'templatePath' => 'Pages',
+    'templateFile' => 'maintenance',
+    'templateLayout' => 'default',
+    'viewVars' => [],
+]);
+```
+
 ### Enable maintenance mode
 
 ```
 $ bin/cake maintenance_mode enable
 ```
 
-Using option `--force` to enable maintenance mode with default config:
-
-- View class: `\App\View\AppView`
-- Templatce: `Pages/maintenance.ctp`
-- Layout: `default`
-- Time: a hour from now
+Using option `--force` to enable maintenance mode without confirmation prompt:
 
 ### Disable maintenance mode
 
@@ -78,7 +88,7 @@ If you would like to help take a look at the [list of issues][issues].
 
 License
 ---
-This project is released under the MIT License.
+This project is released under the MIT License.   
 Copyright © 2015-2016 LemonPHP Team.
 
 

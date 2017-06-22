@@ -7,14 +7,35 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
+// @codingStandardsIgnoreFile
 
-// Set timezone
-date_default_timezone_set('UTC');
+use Cake\Core\Plugin;
 
-// Enable Composer autoloader
-/** @var \Composer\Autoload\ClassLoader $autoloader */
-$autoloader = require dirname(__DIR__) . '/vendor/autoload.php';
+$findRoot = function ($root) {
+    do {
+        $lastRoot = $root;
+        $root = dirname($root);
+        if (is_dir($root . '/vendor/cakephp/cakephp')) {
+            return $root;
+        }
+    } while ($root !== $lastRoot);
+    throw new \Exception('Cannot find the root of the application, unable to run tests');
+};
 
-// Register test classes
-$autoloader->addPsr4('Lemon\\CakePlugin\\MaintenanceMode\\Tests\\', __DIR__);
-$autoloader->addPsr4('Cake\\Test\\', dirname(__DIR__) . '/vendor/cakephp/cakephp/tests');
+$root = $findRoot(__FILE__);
+unset($findRoot);
+chdir($root);
+
+require $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
+
+$loader = require $root . '/vendor/autoload.php';
+
+$loader->setPsr4('Cake\\', $root . '/vendor/cakephp/cakephp/src');
+$loader->setPsr4('Cake\Test\\', $root . '/vendor/cakephp/cakephp/tests');
+$loader->addPsr4('Lemon\\CakePlugin\\MaintenanceMode\\Tests\\', __DIR__);
+
+// Load plugin
+Plugin::load('Lemon/CakePlugin/MaintenanceMode', [
+    'path' => dirname(dirname(__FILE__)) . DS,
+    'bootstrap' => true
+]);
